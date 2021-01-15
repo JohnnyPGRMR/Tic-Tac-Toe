@@ -1,21 +1,23 @@
-# This script codes a basic interactive 
+# This script is a basic interactive 
 # tic tac toe game between two seperate users.
+
+# Defining some global variables below.
+# These first two variables are needed to draw an empty board.
 es = ' '
 seperator = ' | '
-vals = [es,es,es,es,es,es,es,es,es]
+# These three variables are needed to track player moves,
+# display moves, and judge once win conditions have been met.
+displayed_moves = [es,es,es,es,es,es,es,es,es]
 board_key = [1,2,3,4,5,6,7,8,9]
-
-# player1 = input("Please pick a marker 'X' or 'O': ")
-
-# position = int(input('Please enter a number between 1 and 9 not previously selected: '))
+available_moves = board_key
 
 # Define a screen clearing function so as to redraw the board and clear inputs.
 def clear_screen():
     print('\n'*100)
 
 # Define a board drawing function.
-
 def draw_board(seperator,vals):
+    # mvb is just a handy way to shift the display of the board over.
     mvb = ' '*10
     line_between = '*'*14
     # First level of the board.
@@ -115,7 +117,7 @@ def play_game(player1_letter,player2_letter,board_key,available_moves):
                 print("I'm sorry, but you've already made that move.")
             
         while player_turn == 2:
-        # Check to see fi the move has already been made.
+        # Check to see if the move has already been made.
             move = user_choice()
             if available_moves[move - 1] != player1_letter or available_moves[move - 1] != player2_letter:
             # Inserting value picked by player into the executed move list.
@@ -136,6 +138,6 @@ draw_board(seperator,board_key)
 player1_letter, player2_letter = x_or_o()
 
 # Let the game begin!
-play_game(player1_letter,player2_letter,board_key,vals)
+play_game(player1_letter,player2_letter,board_key,displayed_moves)
             
             
