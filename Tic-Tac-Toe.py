@@ -70,12 +70,15 @@ def x_or_o():
         # Check if the letter is a valid input.
         if valid_letters[0] in player1_letter.upper():
             pass_condition = True
+            # Transpose the input to uppercase if it is.
+            player1_letter = player1_letter.upper()
             player2_letter = valid_letters[1]
             print(f'Player 1 has {player1_letter} and Player 2 has {player2_letter}')
             return player1_letter, player2_letter
 
         elif valid_letters[1] in player1_letter.upper():
             pass_condition = True
+            player1_letter = player1_letter.upper()
             player2_letter = valid_letters[0]
             print(f'Player 1 has {player1_letter} and Player 2 has {player2_letter}')
             return player1_letter, player2_letter
@@ -84,7 +87,44 @@ def x_or_o():
             print('Sorry, wrong value!!!!')
             pass
         
+def play_game(player1_letter,player2_letter,board_key,available_moves):
+    # Setting a condition for ending the game.
+    end_game = False
+    # Creating and initializing needed variables.
+    es = ' '
+    move = 100  # Assigned a random value outside of acceptable moves list.
+    player_turn = 1     # Initializing value to the first move.
 
+    while end_game == False:
+        if es in available_moves:
+            end_game = False
+        else:
+            end_game = True
+            break
+            
+        while player_turn == 1:
+            move = user_choice()
+            # Check to see if the move has already been made.
+            if available_moves[move - 1] != player1_letter or available_moves[move - 1] != player2_letter:
+                # Inserting value picked by player into the executed move list.
+                available_moves[move - 1] = player1_letter
+                player_turn = 2
+                draw_board(seperator,available_moves)
+                break
+            else:
+                print("I'm sorry, but you've already made that move.")
+            
+        while player_turn == 2:
+        # Check to see fi the move has already been made.
+            move = user_choice()
+            if available_moves[move - 1] != player1_letter or available_moves[move - 1] != player2_letter:
+            # Inserting value picked by player into the executed move list.
+                available_moves[move - 1] = player2_letter
+                player_turn = 1
+                draw_board(seperator,available_moves)
+                break
+            else:
+                print("I'm sorry, but that move has already been made.")
 
 print('''\tWelcome to John Paul's custom coded Tic Tac Toe game!
         Please take a moment and look at the board key displayed below.
@@ -95,40 +135,7 @@ draw_board(seperator,board_key)
 # Ask players which letter they want.
 player1_letter, player2_letter = x_or_o()
 
-# Commence playing the game.
-def play_game(player1_letter,player2_letter,board_key,vals):
-    # Setting a condition for ending the game.
-    end_game = False
-    # available_moves = board_key
-    move = 100  # Assigned a random value outside of acceptable moves list.
-    player_turn = 1     # Initializing value to the first move.
-
-    while end_game == False:
-        if es in vals:
-            end_game = False
-        else:
-            end_game = True
-            
-        while player_turn == 1:
-            move = user_choice()
-            # Check to see if the move has already been made.
-            if move not in vals:
-                # Inserting value picked by player into the executed move list.
-                vals[move - 1] = player1_letter
-                player_turn = 2
-                draw_board(seperator,vals)
-            else:
-                print("I'm sorry, but you've already made that move.")
-            
-        while player_turn == 2:
-        # Check to see fi the move has already been made.
-            move = user_choice()
-            if move not in vals:
-            # Inserting value picked by player into the executed move list.
-                vals[move - 1] = player2_letter
-                player_turn = 1
-                draw_board(seperator,vals)
-            else:
-                print("I'm sorry, but you've already made that move.")
+# Let the game begin!
+play_game(player1_letter,player2_letter,board_key,vals)
             
             
