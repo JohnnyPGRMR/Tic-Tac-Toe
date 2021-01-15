@@ -32,12 +32,14 @@ def draw_board(seperator,vals):
     print(mvb,vals[0],seperator,vals[1],seperator,vals[2])
     print('\n'*2)
 
+# Define a function that takes in user input and validates it.
 def user_choice():
     '''
-    User inputs a number (0-10) and we return this
+    User inputs a number (0-10) and the function returns it
     in integer form.
-    No paramter is passed when calling this function.
+    No parameter is passed into the function when calling it.
     '''
+    # Declaring local variables needed as part of the user validation tests.
     choice = 'WRONG'
     within_range = False
 
@@ -60,13 +62,16 @@ def user_choice():
 
     return int(choice)
 
-# Defining a function to for player to pick X or O.
+# Defining a function for a player to pick X or O.
 def x_or_o():
+    # This is hard coded in to make running it easier, not sure if there IS a 
+    # more flexible way to write this.
+    valid_letters = ['X','O']
     # Initializing the variables to make typing easier below, currently equivalent to blank values.
-    valid_letters = ['X','O'] 
     player1_letter = ' '
     player2_letter = ' '
     pass_condition = False
+
     while pass_condition == False:
         player1_letter = input('Player 1, please input your desired letter (X or O): ')
         # Check if the letter is a valid input.
@@ -78,8 +83,10 @@ def x_or_o():
             print(f'Player 1 has {player1_letter} and Player 2 has {player2_letter}')
             return player1_letter, player2_letter
 
+        # check if the letter is a valid input.
         elif valid_letters[1] in player1_letter.upper():
             pass_condition = True
+            # Make sure the input is capitalized.
             player1_letter = player1_letter.upper()
             player2_letter = valid_letters[0]
             print(f'Player 1 has {player1_letter} and Player 2 has {player2_letter}')
@@ -89,7 +96,17 @@ def x_or_o():
             print('Sorry, wrong value!!!!')
             pass
         
-def play_game(player1_letter,player2_letter,board_key,available_moves):
+# Define a function that executes/plays the game.
+def play_game(player1_letter, player2_letter, board_key, displayed_moves, available_moves):
+    # Docstring.
+    '''\tThis function plays the tic tac toe game.
+        It relies on certain custom functions created as part of this python file.'''
+
+    # Display welcome message!
+    print('''\tWelcome to John Paul's custom coded Tic Tac Toe game!
+        Please take a moment and look at the board key displayed below.
+        Numbers correspond to board position for placing your X's and O's.''')
+    
     # Setting a condition for ending the game.
     end_game = False
     # Creating and initializing needed variables.
@@ -128,9 +145,7 @@ def play_game(player1_letter,player2_letter,board_key,available_moves):
             else:
                 print("I'm sorry, but that move has already been made.")
 
-print('''\tWelcome to John Paul's custom coded Tic Tac Toe game!
-        Please take a moment and look at the board key displayed below.
-        Numbers correspond to board position for placing your X's and O's.''')
+
 # Draw a board with the key positions laid out.
 draw_board(seperator,board_key)
 
@@ -138,6 +153,5 @@ draw_board(seperator,board_key)
 player1_letter, player2_letter = x_or_o()
 
 # Let the game begin!
-play_game(player1_letter,player2_letter,board_key,displayed_moves)
-            
+#          
             
