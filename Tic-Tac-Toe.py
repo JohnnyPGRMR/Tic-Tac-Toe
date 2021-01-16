@@ -95,17 +95,41 @@ def x_or_o():
         else:
             print('Sorry, wrong value!!!!')
             pass
+
+# Defining a function to check for victory.
+def check_victory(moves_made, player_letter):
+
+    '''This function checks if victory conditions have been met 
+    in a game of tic tac toe.'''
+    # moves_made = [1,2,3,4,5,6,7,8,9], or some combination of these numbers and empty spaces.
+
+    # Grid layout is [7, 8, 9,
+    #                 4, 5, 6,
+    #                 1, 2, 3]
+
+    # Check vertical victory conditions first.
+    if moves_made[0] == moves_made[3] == moves_made[6] == player_letter:
+        return True
+    elif moves_made[1] == moves_made[4] == moves_made[7] == player_letter:
+        return True
+    elif moves_made[2] == moves_made[5] == moves_made[8] == player_letter:
+        return True
+    # Checking diagonals, first left to right, then right to left.
+    elif moves_made[0] == moves_made[4] == moves_made[8] == player_letter:
+        return True
+    elif moves_made[2] == moves_made[4] == moves_made[6] == player_letter:
+        return True
+    else:
+        return False
         
 # Define a function that executes/plays the game.
 def play_game(player1_letter, player2_letter, displayed_moves, available_moves):
     # Docstring.
-    '''\tThis function plays the tic tac toe game.
+    '''This function plays the tic tac toe game.
         It relies on certain custom functions created as part of this python file.'''
     
-    # ##Setting a condition for ending the game.
-    # ##end_game = False
-    # Creating and initializing needed variables.
-    # es = ' '
+    # Setting a condition for ending the game.
+    player_win = False
     move = 100  # Assigned a random value outside of acceptable moves list.
     player_turn = 1     # Initializing value to the first move.
 
@@ -113,13 +137,15 @@ def play_game(player1_letter, player2_letter, displayed_moves, available_moves):
     print('''\tWelcome to John Paul's custom coded Tic Tac Toe game!
         Please take a moment and look at the board key displayed below.
         Numbers correspond to board position for placing your X's and O's.''')
+    # Draw a board with the key positions laid out.
+    draw_board(seperator,board_key)
 
     # Primary game loop.
-    while len(available_moves) > 0:
-        
+    while player_win == False:
+
         while player_turn == 1:
-            if len(available_moves) == 0:
-                break
+            # if len(available_moves) == 0:
+            #     break
             print(f'Your turn Player {player_turn}!')
             move = user_choice()
             # Check to see if the move has already been made.
@@ -130,30 +156,44 @@ def play_game(player1_letter, player2_letter, displayed_moves, available_moves):
                 draw_board(seperator,displayed_moves)
                 val_to_remove = available_moves.index(move)
                 available_moves.pop(val_to_remove)   # Remove move that has been done from list.
+                # Player 1 win check.
+                player_win = check_victory(displayed_moves,player1_letter)
+                # Change the number back if this is a win condition.
+                if player_win == True:
+                    player_turn = 1
                 break
             else:
                 print("I'm sorry, but you've already made that move.")
+                continue
 
-        while player_turn == 2:
-            if len(available_moves) == 0:
-                break
-            print(f'Your turn Player {player_turn}!')
-            # Check to see if the move has already been made.
-            move = user_choice()
-            if move in available_moves:
-            # Inserting value picked by player into the executed move list.
-                displayed_moves[move - 1] = player2_letter
-                player_turn = 1
-                draw_board(seperator,displayed_moves)
-                val_to_remove = available_moves.index(move)
-                available_moves.pop(val_to_remove)   # Remove move that has been done from list.
-                break
-            else:
-                print("I'm sorry, but that move has already been made.")
+        # Stop the loop if the previous move won player 1 the game.
+        if player_win == False:
+            while player_turn == 2:
+                print(f'Your turn Player {player_turn}!')
+                # Check to see if the move has already been made.
+                move = user_choice()
+                if move in available_moves:
+                # Inserting value picked by player into the executed move list.
+                    displayed_moves[move - 1] = player2_letter
+                    player_turn = 1
+                    draw_board(seperator,displayed_moves)
+                    val_to_remove = available_moves.index(move)
+                    available_moves.pop(val_to_remove)   # Remove move that has been done from list.
 
+                    # Player 2 win check.
+                    player_win = check_victory(displayed_moves,player1_letter)
+                    # Change the number back if this is a win condition.
+                    if player_win == True:
+                        player_turn = 2
+                    break
+                else:
+                    print("I'm sorry, but that move has already been made.")
+        else:
+            break
+    clear_screen()
+    print(f'Congratulations Player {player_turn}!  You have won this game of Tic Tac Toe')
+    draw_board(seperator,displayed_moves)
 
-# Draw a board with the key positions laid out.
-draw_board(seperator,board_key)
 
 # Ask players which letter they want.
 player1_letter, player2_letter = x_or_o()
