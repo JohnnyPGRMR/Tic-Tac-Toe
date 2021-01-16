@@ -1,7 +1,14 @@
 es = ' '
 seperator = ' | '
-vals = [es,es,es,es,es,es,es,es,es]
+# These three variables are needed to track player moves,
+# display moves, and judge once win conditions have been met.
+displayed_moves = [es,es,es,es,es,es,es,es,es]
 board_key = [1,2,3,4,5,6,7,8,9]
+available_moves = board_key
+playerLetter = 'X'
+
+testList_win = [playerLetter,es,playerLetter,es,playerLetter,es,playerLetter,es,playerLetter]
+testList_notWin = displayed_moves
 
 def clear_screen():
     print('\n'*100)
@@ -112,4 +119,30 @@ def play_game(player1_letter,player2_letter,board_key,vals):
             else:
                 print("I'm sorry, but you've already made that move.")
 
-play_game('X','O',board_key,vals)
+
+def check_victory(moves_made, player_letter):
+
+    '''This function checks if victory conditions have been met 
+    in a game of tic tac toe.'''
+    # moves_made = [1,2,3,4,5,6,7,8,9], or some combination of these numbers and empty spaces.
+
+    # Grid layout is [7, 8, 9,
+    #                 4, 5, 6,
+    #                 1, 2, 3]
+
+    # Check vertical victory conditions first.
+    if moves_made[0] == moves_made[3] == moves_made[6] == player_letter:
+        return True
+    elif moves_made[1] == moves_made[4] == moves_made[7] == player_letter:
+        return True
+    elif moves_made[2] == moves_made[5] == moves_made[8] == player_letter:
+        return True
+    # Checking diagonals, first left to right, then right to left.
+    elif moves_made[0] == moves_made[4] == moves_made[8] == player_letter:
+        return True
+    elif moves_made[2] == moves_made[4] == moves_made[6] == player_letter:
+        return True
+    else:
+        return False
+
+check_victory(testList_win,playerLetter)
